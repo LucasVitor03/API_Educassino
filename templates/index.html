@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educassino</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .slot-machine {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .slot {
+            width: 80px;
+            height: 80px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #333;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        #spinButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        #resultMessage {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Educassino</h1>
+    <p>Clique para jogar e veja os resultados. Lembre-se: as chances estão contra você!</p>
+    <div class="slot-machine">
+        <div class="slot" id="slot1">🍌</div>
+        <div class="slot" id="slot2">🍌</div>
+        <div class="slot" id="slot3">🍌</div>
+    </div>
+    <button id="spinButton">Girar</button>
+    <p id="resultMessage"></p> <!-- Elemento para exibir a mensagem de resultado -->
+    <div id="clickCount">Cliques: 0</div> <!-- Contador de cliques -->
+
+    <script>
+        const slot1 = document.getElementById("slot1");
+        const slot2 = document.getElementById("slot2");
+        const slot3 = document.getElementById("slot3");
+        const button = document.getElementById("spinButton");
+        const resultMessage = document.getElementById("resultMessage");
+
+        const icons = ["🍌", "🍎", "🐯", "🐍"];
+
+        async function updateClickCount() {
+            const response = await fetch('/increment_click', { method: 'POST' });
+            const data = await response.json();
+            clickCountDisplay.textContent = `Cliques: ${data.click_count}`;
+        }
+
+        function getRandomIcon() {
+            return icons[Math.floor(Math.random() * icons.length)];
+        }
+
+        button.addEventListener("click", () => {
+            button.disabled = true;
+            resultMessage.textContent = ""; // Limpa a mensagem anterior
+
+            let slot1Result = setInterval(() => slot1.textContent = getRandomIcon(), 100);
+            let slot2Result = setInterval(() => slot2.textContent = getRandomIcon(), 100);
+            let slot3Result = setInterval(() => slot3.textContent = getRandomIcon(), 100);
+
+            setTimeout(() => {
+                clearInterval(slot1Result);
+                clearInterval(slot2Result);
+                clearInterval(slot3Result);
+
+                // Verifica o resultado e exibe a mensagem
+                resultMessage.textContent = (slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent)
+                    ? "Parabéns, você ganhou... mas qual o custo? Pense nisso!"
+                    : "Perdeu desta vez. A casa sempre vence HAHA!";
+                
+                button.disabled = false;
+            }, 3000); // 3 segundos de espera antes de parar
+        });
+    </script>
+</body>
+</html>
