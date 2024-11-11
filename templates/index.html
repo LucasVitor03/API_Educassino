@@ -75,6 +75,16 @@
             return icons[Math.floor(Math.random() * icons.length)];
         }
 
+        const messages = ["Perdeu desta vez. A casa sempre vence HAHA!", 
+        "Esse dinheiro que você jogou, não irá fazer falta ?", 
+        "Com esse valor você poderia ter comprado uma cesta básica para sua família!", 
+        "Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura"]
+
+        function randomMessage(messages) {
+            const index = Math.floor(Math.random() * messages.length);
+            return messages[index];
+        }
+
         button.addEventListener("click", () => {
             button.disabled = true;
             resultMessage.textContent = ""; // Limpa a mensagem anterior
@@ -91,7 +101,7 @@
                 // Verifica o resultado e exibe a mensagem
                 resultMessage.textContent = (slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent)
                     ? "Parabéns, você ganhou... mas qual o custo? Pense nisso!"
-                    : "Perdeu desta vez. A casa sempre vence HAHA!";
+                    : randomMessage(messages)
                 
                 button.disabled = false;
             }, 3000); // 3 segundos de espera antes de parar
