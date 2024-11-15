@@ -19,3 +19,15 @@ def home():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    #port=5000
+
+    #API de verdade - Receberia a informações do nosso JS e faria os cálculos e retornar na página index.html
+
+
+    app = Flask(__name__)
+
+    #aqui ficaria o calculo de porcentagem de cada jogada
+    #faz um GET dos dados do banco MongoBD e depois um POST no HTML
+
+    if __name__ == '__main__':
+        app.run(debug=True, port=5500)
