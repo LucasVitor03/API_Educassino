@@ -1,33 +1,32 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
+import threading # import para usar 2 api
 
+#Essa API é só para retornar a Página html
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/", methods=['GET'])
 def home():
     return render_template('index.html')
 
-#@app.route("/contador", methods=['POST'])
-#def counter():
-    global click_count
-    click_count += 1
-    return jsonify({'click_cout': click_count}) 
+#API2 - Receberia a informações do nosso JS e faria os cálculos e retornar na página index.html
 
-#@app.route("/mostrarcontador", methods=['GET'])
-#def counter_show():
-    return jsonify({'click_count': click_count})
+app2 = Flask(__name__)
+CORS(app2)
 
+@app2.route('/')
+def home_app2():
+    return "API 2 - Porta 5500"
+
+def run_app():
+    app.run(port=5000)
+
+def run_app2():
+    app2.run(port=5500)
+
+#faz um GET dos dados do banco MongoBD e depois um POST no HTML
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    #port=5000
-
-    #API de verdade - Receberia a informações do nosso JS e faria os cálculos e retornar na página index.html
-
-
-    app = Flask(__name__)
-
-    #aqui ficaria o calculo de porcentagem de cada jogada
-    #faz um GET dos dados do banco MongoBD e depois um POST no HTML
-
-    if __name__ == '__main__':
-        app.run(debug=True, port=5500)
+    threading.Thread(target=run_app).start()
+    threading.Thread(target=run_app2).start()

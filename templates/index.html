@@ -54,7 +54,6 @@
     </div>
     <button id="spinButton">Girar</button>
     <p id="resultMessage"></p> <!-- Elemento para exibir a mensagem de resultado -->
-    <div id="clickCount">Cliques: 0</div> <!-- Contador de cliques -->
 
     <script>
         const slot1 = document.getElementById("slot1");
@@ -75,10 +74,12 @@
             return icons[Math.floor(Math.random() * icons.length)];
         }
 
-        const messages = ["Perdeu desta vez. A casa sempre vence HAHA!", 
-        "Esse dinheiro que você jogou, não irá fazer falta ?", 
-        "Com esse valor você poderia ter comprado uma cesta básica para sua família!", 
-        "Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura"]
+        const messages = [
+            "Perdeu desta vez. A casa sempre vence HAHA!",
+            "Esse dinheiro que você jogou, não irá fazer falta?",
+            "Com esse valor você poderia ter comprado uma cesta básica para sua família!",
+            "Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura",
+        ];
 
         function randomMessage(messages) {
             const index = Math.floor(Math.random() * messages.length);
