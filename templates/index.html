@@ -125,38 +125,49 @@
             return icons[Math.floor(Math.random() * icons.length)];
         }
 
-        const messages = [
-            "Perdeu desta vez. A casa sempre vence HAHA!",
-            "Esse dinheiro que você jogou, não irá fazer falta?",
-            "Com esse valor você poderia ter comprado uma cesta básica para sua família!",
-            "Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura",
-        ];
 
-        function randomMessage() {
-            return messages[Math.floor(Math.random() * messages.length)];
-        }
 
         async function realizarJogada() {
-            button.disabled = true;
-            resultMessage.textContent = "";
-            let slot1Result = setInterval(() => (slot1.textContent = getRandomIcon()), 100);
-            let slot2Result = setInterval(() => (slot2.textContent = getRandomIcon()), 100);
-            let slot3Result = setInterval(() => (slot3.textContent = getRandomIcon()), 100);
+    button.disabled = true;
+    resultMessage.textContent = "";
+    let slot1Result = setInterval(() => (slot1.textContent = getRandomIcon()), 100);
+    let slot2Result = setInterval(() => (slot2.textContent = getRandomIcon()), 100);
+    let slot3Result = setInterval(() => (slot3.textContent = getRandomIcon()), 100);
 
-            setTimeout(() => {
-                clearInterval(slot1Result);
-                clearInterval(slot2Result);
-                clearInterval(slot3Result);
+    setTimeout(async () => {
+        clearInterval(slot1Result);
+        clearInterval(slot2Result);
+        clearInterval(slot3Result);
 
-                const venceu = slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent;
-                resultMessage.textContent = venceu
-                    ? "Parabéns, você ganhou... mas qual o custo? Pense nisso!"
-                    : randomMessage();
+        const venceu = slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent;
 
-                exibirProbabilidade();
-                button.disabled = false;
-            }, 3000);
+        // Fazendo a chamada ao backend para obter os dados da jogada
+        try {
+            const response = await fetch('http://127.0.0.1:5500/jogada', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            });
+
+            const data = await response.json();
+
+            // Exibindo a mensagem de resultado e probabilidade
+            resultMessage.textContent = venceu
+                ? "Parabéns, você ganhou... mas qual o custo? Pense nisso!"
+                : data.frase; // Usando a frase vinda do backend
+
+            button.disabled = false;
+        } catch (error) {
+            console.error('Erro ao calcular a jogada:', error);
+            resultMessage.textContent = "Erro ao calcular a jogada.";
         }
+    }, 3000);
+}
+
+async function exibirProbabilidade(probabilidade_vitoria) {
+    probabilidade.textContent = `Probabilidade de vitória nesta rodada: ${probabilidade_vitoria.toFixed(2)}%`;
+}
+
 
         async function exibirProbabilidade() {
             try {
@@ -167,7 +178,7 @@
                 });
 
                 const data = await response.json();
-                probabilidade.textContent = `Probabilidade de vitória nesta rodada: ${data.probabilidade.toFixed(2)}%`;
+                
             } catch (error) {
                 console.error('Erro ao calcular a probabilidade:', error);
                 probabilidade.textContent = "Erro ao calcular a probabilidade.";
