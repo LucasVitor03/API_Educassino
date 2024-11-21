@@ -19,6 +19,19 @@ CORS(app2)
 def home_app2():
     return "API 2 - Porta 5500"
 
+@app.route('/jogada', methods=['POST'])
+def jogada():
+    dados = request.json  # Recebe os dados do front-end
+    
+    simbolos = ["🍌", "🍎", "🐯", "🐍", "🦁​"]
+    total_simbolos = len(simbolos)
+    
+    total_combinacoes = total_simbolos ** 3
+    combinacoes_vencedoras = total_simbolos  # Uma vitória para cada símbolo
+    probabilidade_vitoria = (combinacoes_vencedoras / total_combinacoes) * 100
+    
+    return jsonify({'probabilidade': probabilidade_vitoria})
+
 def run_app():
     app.run(port=5000)
 

@@ -37,7 +37,7 @@
             font-size: 18px;
             cursor: pointer;
         }
-        #resultMessage {
+        #resultMessage, #probabilidade {
             margin-top: 20px;
             font-size: 18px;
             color: #333;
@@ -54,6 +54,7 @@
     </div>
     <button id="spinButton">Girar</button>
     <p id="resultMessage"></p> <!-- Elemento para exibir a mensagem de resultado -->
+    <p id="probabilidade"></p> <!-- Exibe a probabilidade calculada pela API -->
 
     <script>
         const slot1 = document.getElementById("slot1");
@@ -61,14 +62,9 @@
         const slot3 = document.getElementById("slot3");
         const button = document.getElementById("spinButton");
         const resultMessage = document.getElementById("resultMessage");
+        const probabilidade = document.getElementById("probabilidade");
 
-        const icons = ["🍌", "🍎", "🐯", "🐍"];
-
-        async function updateClickCount() {
-            const response = await fetch('/increment_click', { method: 'POST' });
-            const data = await response.json();
-            clickCountDisplay.textContent = `Cliques: ${data.click_count}`;
-        }
+        const icons = ["🍌", "🍎", "🐯", "🐍", "🦁​"];
 
         function getRandomIcon() {
             return icons[Math.floor(Math.random() * icons.length)];
@@ -86,25 +82,43 @@
             return messages[index];
         }
 
+        async function exibirProbabilidade() {
+            try {
+                const response = await fetch('http://127.0.0.1:5500/jogada', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({jogadas: []})
+                });
+
+                const data = await response.json();
+                probabilidade.textContent = `Probabilidade de vitória nesta rodada: ${data.probabilidade.toFixed(2)}%`;
+            } catch (error) {
+                console.error('Erro ao calcular a probabilidade:', error);
+                probabilidade.textContent = "Erro ao calcular a probabilidade.";
+            }
+        }
+
         button.addEventListener("click", () => {
-            // função para enviar dados para uma rota api
             button.disabled = true;
             resultMessage.textContent = ""; // Limpa a mensagem anterior
 
-            let slot1Result = setInterval(() => slot1.textContent = getRandomIcon(), 100);
-            let slot2Result = setInterval(() => slot2.textContent = getRandomIcon(), 100);
-            let slot3Result = setInterval(() => slot3.textContent = getRandomIcon(), 100);
+            let slot1Result = setInterval(() => (slot1.textContent = getRandomIcon()), 100);
+            let slot2Result = setInterval(() => (slot2.textContent = getRandomIcon()), 100);
+            let slot3Result = setInterval(() => (slot3.textContent = getRandomIcon()), 100);
 
             setTimeout(() => {
                 clearInterval(slot1Result);
                 clearInterval(slot2Result);
                 clearInterval(slot3Result);
 
-                // Verifica o resultado e exibe a mensagem
-                resultMessage.textContent = (slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent)
+                const venceu = slot1.textContent === slot2.textContent && slot2.textContent === slot3.textContent;
+                resultMessage.textContent = venceu
                     ? "Parabéns, você ganhou... mas qual o custo? Pense nisso!"
-                    : randomMessage(messages)
-                
+                    : randomMessage(messages);
+
+                // Exibe a probabilidade da jogada atual
+                exibirProbabilidade();
+
                 button.disabled = false;
             }, 3000); // 3 segundos de espera antes de parar
         });
