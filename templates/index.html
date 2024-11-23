@@ -124,6 +124,10 @@
         color: #666;
     }   
 
+    a {
+            color: inherit;
+            text-decoration: underline; 
+        }
     </style>
 </head>
 <body>
@@ -133,7 +137,13 @@
     </div>
     <div class="container">
         <div class="column" id="left-column">
-           aaaaaa
+            <div id="simulacaoForm">
+                <h2>Simulação de Longo Prazo</h2>
+                <input id="rodadas" type="number" placeholder="Número de rodadas">
+                <input id="aposta" type="number" placeholder="Valor da aposta">
+                <button onclick="simular()">Simular</button>
+                <div id="simulacao"></div>
+            </div>
         </div>
         <div class="column" id="center-column">
             <div class="slot-machine">
@@ -146,13 +156,6 @@
             <p id="probabilidade"></p>
             <div id="historico"></div>
 
-            <div id="simulacaoForm">
-                <h2>Simulação de Longo Prazo</h2>
-                <input id="rodadas" type="number" placeholder="Número de rodadas">
-                <input id="aposta" type="number" placeholder="Valor da aposta">
-                <button onclick="simular()">Simular</button>
-                <div id="simulacao"></div>
-            </div>
         </div>
         <div class="column" id="right-column">
             <h2>Notícias locais</h2>
