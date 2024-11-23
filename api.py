@@ -8,6 +8,21 @@ client = MongoClient("mongodb://root:senha123@localhost:27017/")
 db = client["feedback"]
 collection = db["frases"]
 
+
+if "feedback" not in client.list_database_names():
+    db = client["feedback"]
+    collection = db["frases"]
+    frases_iniciais = [
+        {"texto" :'Com esse valor você poderia ter comprado uma cesta básica para sua família!'},
+        {"texto" :'Perdeu desta vez. A casa sempre vence HAHA!'},
+        {"texto" :'Esse dinheiro que você jogou, não irá fazer falta?'},
+        {"texto" :'Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura'}
+    ]
+    collection.insert_many(frases_iniciais)
+    print("Banco de dados e coleção criados com frases iniciais.")
+else:
+    print("Banco de dados já existente.")
+
 # API principal
 app = Flask(__name__)
 CORS(app)
@@ -33,7 +48,7 @@ def jogada():
     probabilidade_vitoria = (combinacoes_vencedoras / total_combinacoes) * 100
     probabilidade_perda = 100 - probabilidade_vitoria
 
-    frases = list(collection.find())  # Busca todas as frases
+    frases = list(collection.find())
     if frases:
         frase_aleatoria = random.choice(frases).get("texto", "Nenhuma frase encontrada")
     else:
@@ -98,5 +113,7 @@ def run_app2():
     app2.run(port=5500)
 
 if __name__ == '__main__':
+    print(db)
+    print(client)
     threading.Thread(target=run_app).start()
     threading.Thread(target=run_app2).start()
