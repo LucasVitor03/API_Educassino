@@ -1,7 +1,12 @@
 from flask import Flask, jsonify, request, render_template
+from pymongo import MongoClient
 from flask_cors import CORS
 import random
 import threading
+
+client = MongoClient("mongodb://root:senha123@localhost:27017/")
+db = client["feedback"]
+collection = db["frases"]
 
 # API principal
 app = Flask(__name__)
@@ -28,13 +33,11 @@ def jogada():
     probabilidade_vitoria = (combinacoes_vencedoras / total_combinacoes) * 100
     probabilidade_perda = 100 - probabilidade_vitoria
 
-    frases = [
-        "Perdeu desta vez. A casa sempre vence HAHA!",
-        "Esse dinheiro que você jogou, não irá fazer falta?",
-        "Com esse valor você poderia ter comprado uma cesta básica para sua família!",
-        "Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura",
-    ]
-    frase_aleatoria = random.choice(frases)
+    frases = list(collection.find())  # Busca todas as frases
+    if frases:
+        frase_aleatoria = random.choice(frases).get("texto", "Nenhuma frase encontrada")
+    else:
+        frase_aleatoria = "Nenhuma frase disponível no momento."
 
     resultado = random.choices(
         ["Vitória", "Derrota"],
