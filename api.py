@@ -13,10 +13,13 @@ if "feedback" not in client.list_database_names():
     db = client["feedback"]
     collection = db["frases"]
     frases_iniciais = [
-        {"texto" :'Com esse valor você poderia ter comprado uma cesta básica para sua família!'},
-        {"texto" :'Perdeu desta vez. A casa sempre vence HAHA!'},
-        {"texto" :'Esse dinheiro que você jogou, não irá fazer falta?'},
-        {"texto" :'Faça um investimento que retorne um valor de verdade! Apostar não trará renda futura'}
+        {"texto" :'Já pensou em quanto seu dinheiro poderia render se fosse investido em algo que realmente trouxesse benefícios no futuro?'},
+        {"texto" :'Cada vez que você aposta, está deixando para trás oportunidades reais de crescimento financeiro.'},
+        {"texto" :'O valor que você perdeu aqui poderia ser usado para pagar contas essenciais ou poupar para um futuro mais tranquilo.'},
+        {"texto" :'Você sabia que a probabilidade de perda é muito maior do que a de ganho? Pense bem antes de fazer sua aposta.'},
+        {"texto" :'Você apostou o que seria o valor do seu almoço hoje. O que você vai fazer quando não tiver mais dinheiro para se alimentar?'},
+        {"texto" :'Aposte agora, mas lembre-se: o que você perdeu pode ser o valor de um aluguel, de uma despesa essencial. Até quando você vai continuar ignorando isso?'},
+        {"texto" :'Você perdeu o valor que seria usado para sua casa, para sua comida, para a sua segurança. O que vai fazer quando não tiver mais o que apostar?'}
     ]
     collection.insert_many(frases_iniciais)
     print("Banco de dados e coleção criados com frases iniciais.")
