@@ -13,18 +13,33 @@ if "feedback" not in client.list_database_names():
     db = client["feedback"]
     collection = db["frases"]
     frases_iniciais = [
-        {"texto" :'Já pensou em quanto seu dinheiro poderia render se fosse investido em algo que realmente trouxesse benefícios no futuro?'},
-        {"texto" :'Cada vez que você aposta, está deixando para trás oportunidades reais de crescimento financeiro.'},
-        {"texto" :'O valor que você perdeu aqui poderia ser usado para pagar contas essenciais ou poupar para um futuro mais tranquilo.'},
-        {"texto" :'Você sabia que a probabilidade de perda é muito maior do que a de ganho? Pense bem antes de fazer sua aposta.'},
-        {"texto" :'Você apostou o que seria o valor do seu almoço hoje. O que você vai fazer quando não tiver mais dinheiro para se alimentar?'},
-        {"texto" :'Aposte agora, mas lembre-se: o que você perdeu pode ser o valor de um aluguel, de uma despesa essencial. Até quando você vai continuar ignorando isso?'},
-        {"texto" :'Você perdeu o valor que seria usado para sua casa, para sua comida, para a sua segurança. O que vai fazer quando não tiver mais o que apostar?'}
+        {"texto": "Já pensou como esse dinheiro poderia ser usado para alcançar seus objetivos de longo prazo, como estudos, moradia ou segurança financeira?"},
+        {"texto": "A cada aposta, você abre mão de oportunidades reais de investir em algo que pode trazer benefícios duradouros."},
+        {"texto": "O valor perdido aqui poderia ser usado para cuidar de suas necessidades essenciais ou construir um fundo de emergência para imprevistos."},
+        {"texto": "Sabia que as chances de perder são muito maiores do que de ganhar? Reflita sobre como isso pode impactar suas finanças."},
+        {"texto": "Esse valor que você apostou hoje poderia ser usado para algo que realmente importa, como sua alimentação ou saúde."},
+        {"texto": "Lembre-se: o que você perdeu aqui poderia cobrir uma despesa importante ou ser guardado para um momento de necessidade. Vale a pena continuar?"},
+        {"texto": "Perder aqui significa deixar de investir em sua estabilidade. Que tal pensar em maneiras mais seguras de usar seu dinheiro?"}
     ]
+
+    collection.delete_many({})
     collection.insert_many(frases_iniciais)
     print("Banco de dados e coleção criados com frases iniciais.")
 else:
     print("Banco de dados já existente.")
+    collection.delete_many({})
+
+    frases_iniciais = [
+        {"texto": "Já pensou como esse dinheiro poderia ser usado para alcançar seus objetivos de longo prazo, como estudos, moradia ou segurança financeira?"},
+        {"texto": "A cada aposta, você abre mão de oportunidades reais de investir em algo que pode trazer benefícios duradouros."},
+        {"texto": "O valor perdido aqui poderia ser usado para cuidar de suas necessidades essenciais ou construir um fundo de emergência para imprevistos."},
+        {"texto": "Sabia que as chances de perder são muito maiores do que de ganhar? Reflita sobre como isso pode impactar suas finanças."},
+        {"texto": "Esse valor que você apostou hoje poderia ser usado para algo que realmente importa, como sua alimentação ou saúde."},
+        {"texto": "Lembre-se: o que você perdeu aqui poderia cobrir uma despesa importante ou ser guardado para um momento de necessidade. Vale a pena continuar?"},
+        {"texto": "Perder aqui significa deixar de investir em sua estabilidade. Que tal pensar em maneiras mais seguras de usar seu dinheiro?"}
+    ]
+
+    collection.insert_many(frases_iniciais)
 
 # API principal
 app = Flask(__name__)

@@ -130,61 +130,58 @@
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>Educassino</h1>
-        <p>Clique para jogar e veja os resultados. Lembre-se: as chances estão contra você!</p>
-    </div>
-    <div class="container">
-        <div class="column" id="left-column">
-            <div id="simulacaoForm">
-                <h2>Simulação de Longo Prazo</h2>
-                <input id="rodadas" type="number" placeholder="Número de rodadas">
-                <input id="aposta" type="number" placeholder="Valor da aposta">
-                <button onclick="simular()">Simular</button>
-                <div id="simulacao"></div>
-            </div>
+<div class="header">
+    <h1>Educassino</h1>
+    <p>Clique para jogar e veja os resultados. Lembre-se: as chances estão contra você!</p>
+</div>
+<div class="container">
+    <div class="column" id="left-column">
+        <h2>Notícias locais</h2>
+        <div class="news-card">
+            <h3><a href="https://www.folhabv.com.br/cotidiano/beneficiarios-do-bolsa-familia-gastaram-r-3-bilhoes-no-tigrinho-em-agosto/" target="_blank">
+                    Beneficiários do Bolsa Família gastaram R$ 3 bilhões no “Tigrinho” em agosto 
+                </a>
+            </h3>
+            <p>2 horas atrás</p>
         </div>
-        <div class="column" id="center-column">
-            <div class="slot-machine">
-                <div class="slot" id="slot1">🍌</div>
-                <div class="slot" id="slot2">🍌</div>
-                <div class="slot" id="slot3">🍌</div>
-            </div>
-            <button id="spinButton">Girar</button>
-            <p id="resultMessage"></p>
-            <p id="probabilidade"></p>
-            <div id="historico"></div>
-
+        <div class="news-card">
+            <h3>
+                <a href="https://www.dw.com/pt-br/bets-dominam-redes-com-apoio-de-influenciadores/a-69998095" target="_blank">
+                    "Bets" dominam redes com apoio de influenciadores
+                </a>
+            </h3>
+            <p>1 hora atrás</p>
         </div>
-        <div class="column" id="right-column">
-            <h2>Notícias locais</h2>
-                <div class="news-card">
-                    <h3><a href="https://www.folhabv.com.br/cotidiano/beneficiarios-do-bolsa-familia-gastaram-r-3-bilhoes-no-tigrinho-em-agosto/" target="_blank">
-                            Beneficiários do Bolsa Família gastaram R$ 3 bilhões no “Tigrinho” em agosto 
-                        </a>
-                    </h3>
-                    <p>2 horas atrás</p>
-                </div>
-                <div class="news-card">
-                    <h3>
-                        <a href="https://www.dw.com/pt-br/bets-dominam-redes-com-apoio-de-influenciadores/a-69998095" target="_blank">
-                            "Bets" dominam redes com apoio de influenciadores
-                        </a>
-                    </h3>
-                    <p>1 hora atrás</p>
-                </div>
-                <div class="news-card">
-                    <h3>
-                        <a href="https://beneficiofamilia.com.br/bolsa-familia-beneficiarios-podem-perder/" target="_blank">
-                            Bolsa Família: beneficiários podem perder os R$ 600 por jogar Tigrinho? Saiba a verdade
-                        </a>
-                    </h3>
-                    <p>2 horas atrás</p>
-                </div>
-            </div>
+        <div class="news-card">
+            <h3>
+                <a href="https://beneficiofamilia.com.br/bolsa-familia-beneficiarios-podem-perder/" target="_blank">
+                    Bolsa Família: beneficiários podem perder os R$ 600 por jogar Tigrinho? Saiba a verdade
+                </a>
+            </h3>
+            <p>2 horas atrás</p>
         </div>
     </div>
+    <div class="column" id="center-column">
+        <div class="slot-machine">
+            <div class="slot" id="slot1">🍌</div>
+            <div class="slot" id="slot2">🍌</div>
+            <div class="slot" id="slot3">🍌</div>
+        </div>
+        <button id="spinButton">Girar</button>
+        <p id="resultMessage"></p>
+        <p id="probabilidade"></p>
+        <div id="historico"></div>
+    </div>
+    <div class="column" id="right-column">
+        <div id="simulacaoForm">
+            <h2>Simulação de Longo Prazo</h2>
+            <input id="rodadas" type="number" placeholder="Número de rodadas">
+            <input id="aposta" type="number" placeholder="Valor da aposta">
+            <button onclick="simular()">Simular</button>
+            <div id="simulacao"></div>
+        </div>
+    </div>
+</div> <!-- Fechando container aqui -->
 <canvas id="saldoChart" width="400" height="200"></canvas>
     <script>
         const slot1 = document.getElementById("slot1");
